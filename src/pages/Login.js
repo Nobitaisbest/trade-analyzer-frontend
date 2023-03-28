@@ -27,7 +27,7 @@ const LoginForm = (props) => {
         <Form onSubmit={(e) => props.handleSubmit(e)}>
             <Form.Group controlId="formBasicUsername">
                 <Form.Label>Username</Form.Label>
-                <Form.Control name="username" type="text" placeholder="Enter Username" 
+                <Form.Control name="username" type="text" placeholder="Enter your username" 
                 value={props.inputValues.username} onChange={props.handleInputChange} />
             </Form.Group>
             <Form.Group controlId="formBasicPassword">
