@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { doLogout, isLoggedIn } from "../../utils/Utils";
 
 const NavbarComponent = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [loggedIn, setLoggedIn] = useState(isLoggedIn());
 
     useEffect(() => {
         async function checkLoggedIn() {
             const loginStatus = await isLoggedIn();
             setLoggedIn(loginStatus);
-            if (!loginStatus ) {
+
+            if (!loginStatus && location.pathname !== '/login' 
+                && location.pathname !== '/signup' 
+                && location.pathname !== '/') {
                 navigate('/login');
             }
         }
@@ -38,10 +42,16 @@ const NavbarComponent = () => {
                         <LinkContainer to="/home">
                             <Nav.Link>Home</Nav.Link>
                         </LinkContainer>
-                        <LinkContainer to="/login">
-                            <Nav.Link>Login</Nav.Link>
-                        </LinkContainer>
                     </Nav>
+                    {!loggedIn && 
+                        <Nav>
+                            <LinkContainer to="/login">
+                                <Nav.Link>Login</Nav.Link>
+                            </LinkContainer>
+                            <LinkContainer to="/signup">
+                                <Nav.Link>Signup</Nav.Link>
+                            </LinkContainer>
+                        </Nav>}
                     {loggedIn &&     
                         <Nav>
                             <Button onClick={(e) => handleLogout(e)} variant="outline-warning">Logout</Button>

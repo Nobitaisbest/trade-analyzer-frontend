@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Col, Row, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { isLoggedIn } from '../utils/Utils';
@@ -31,14 +32,23 @@ const DashboardButton = () => {
 };
 
 const Welcome = () => {
-    const loggedIn = isLoggedIn();
+    const [loggedIn, setLoggedIn] = useState(isLoggedIn());
+
+    useEffect(() => {
+        async function checkLoggedIn() {
+            const loginStatus = await isLoggedIn();
+            setLoggedIn(loginStatus);
+        }
+
+        checkLoggedIn();
+    }, [loggedIn, isLoggedIn]);
 
     return (
         <Layout>
             <div className='d-flex mt-5 pt-5 justify-content-center'>
                 <Row>
                     <Col sm="12">
-                        <h1 className='text-dark'>Welcome to TopFinSup</h1>
+                        <h1 className='text-dark'>Welcome to { process.env.REACT_APP_NAME }</h1>
                     </Col>
                 </Row>
             </div>
