@@ -74,14 +74,17 @@ const Signup = () => {
         e.preventDefault();
         doSignup(inputValues)
             .then((res) => {
+                console.log('Signup success response:', res);
                 setSignupError('');
                 onLogon(res);
                 navigate('/dashboard');
             })
             .catch((err) => {
-                setSignupError(err.response.data);
+                console.error('Signup error:', err);
+                setSignupError(err.response?.data || 'An error occurred during signup');
             });
     };
+    
 
     return (
         <Layout>
